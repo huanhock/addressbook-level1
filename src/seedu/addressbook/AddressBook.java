@@ -481,13 +481,13 @@ public class AddressBook {
     }
 
     /**
-     * Extracts keywords from the command arguments given for the find persons command.
+     * Extracts keywords in lower-case from the command arguments given for the find persons command.
      *
      * @param findPersonCOMMAND_ARGS full command args string for the find persons command
      * @return set of keywords as specified by args
      */
     private static Set<String> extractKeywordsFromFindPersonArgs(String findPersonCOMMAND_ARGS) {
-        return new HashSet<>(splitByWhitespace(findPersonCOMMAND_ARGS.trim()));
+        return new HashSet<>(splitByWhitespace(findPersonCOMMAND_ARGS.trim().toLowerCase()));
     }
 
     /**
@@ -1178,13 +1178,13 @@ public class AddressBook {
     }
 
     /**
-     * Splits a source string into the list of substrings that were separated by whitespace.
+     * Splits a source string into the list of lower-case substrings that were separated by whitespace.
      *
      * @param toSplit source string
      * @return split by whitespace
      */
     private static ArrayList<String> splitByWhitespace(String toSplit) {
-        return new ArrayList<>(Arrays.asList(toSplit.trim().split("\\s+")));
+        return new ArrayList<>(Arrays.asList(toSplit.trim().toLowerCase().split("\\s+")));
     }
 
 }
