@@ -146,6 +146,14 @@ public class AddressBook {
     private static final int PERSON_DATA_INDEX_EMAIL = 2;
 
     /**
+     * The types of arguments length from the user
+     */
+    private static final int INVALID_ARG_LENGTH = 2;
+    private static final int VALID_ARG_LENGTH = 1;
+    private static final int DEFAULT_ARG_LENGTH = 0;
+    
+    
+    /**
      * The number of data elements for a single person.
      */
     private static final int PERSON_DATA_COUNT = 3;
@@ -210,6 +218,13 @@ public class AddressBook {
         showWelcomeMessage();
         processProgramArgs(args);
         loadDataFromStorage();
+        getUserCommand();
+    }
+
+    /**
+     * Continuously gets user input 
+     */
+    private static void getUserCommand() {
         while (true) {
             String userCommand = getUserInput();
             echoUserCommand(userCommand);
@@ -257,16 +272,16 @@ public class AddressBook {
      * @param args full program arguments passed to application main method
      */
     private static void processProgramArgs(String[] args) {
-        if (args.length >= 2) {
+        if (args.length >= INVALID_ARG_LENGTH) {
             showToUser(MESSAGE_INVALID_PROGRAM_ARGS);
             exitProgram();
         }
 
-        if (args.length == 1) {
+        if (args.length == VALID_ARG_LENGTH) {
             setupGivenFileForStorage(args[0]);
         }
 
-        if(args.length == 0) {
+        if(args.length == DEFAULT_ARG_LENGTH) {
             setupDefaultFileForStorage();
         }
     }
@@ -438,8 +453,8 @@ public class AddressBook {
      * @return successful add person feedback message
      */
     private static String getMessageForSuccessfulAddPerson(String[] addedPerson) {
-        return String.format(MESSAGE_ADDED,
-                getNameFromPerson(addedPerson), getPhoneFromPerson(addedPerson), getEmailFromPerson(addedPerson));
+        return String.format(MESSAGE_ADDED, getNameFromPerson(addedPerson), 
+                getPhoneFromPerson(addedPerson), getEmailFromPerson(addedPerson));
     }
 
     /**
