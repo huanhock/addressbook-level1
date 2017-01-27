@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Scanner;
@@ -132,6 +133,10 @@ public class AddressBook {
     private static final String COMMAND_EXIT_WORD = "exit";
     private static final String COMMAND_EXIT_DESC = "Exits the program.";
     private static final String COMMAND_EXIT_EXAMPLE = COMMAND_EXIT_WORD;
+    
+    private static final String COMMAND_SORT_WORD = "sort";
+    private static final String COMMAND_SORT_DESC = "List the persons in alphabetical order.";
+    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD;
 
     private static final String DIVIDER = "===================================================";
 
@@ -397,6 +402,8 @@ public class AddressBook {
             return getUsageInfoForAllCommands();
         case COMMAND_EXIT_WORD:
             executeExitProgramRequest();
+        case COMMAND_SORT_WORD:
+            return ListPersonsInAlphabeticalOrder();
         default:
             return getMessageForInvalidCommandInput(COMMAND_TYPE, getUsageInfoForAllCommands());
         }
@@ -600,6 +607,22 @@ public class AddressBook {
         exitProgram();
     }
 
+
+    /**
+    * Displays all persons in the address book to the user; in alphabetical order.
+    */
+    private static String ListPersonsInAlphabeticalOrder() {
+        ArrayList<String[]> alphabeticalList = getAllPersonsInAddressBook();
+        Collections.sort(alphabeticalList, new Comparator<String[]>() {
+            public int compare(String[] first, String[] second) {
+                return first[0].toLowerCase().compareTo(second[0].toLowerCase());
+            }
+        });
+        showToUser(alphabeticalList);
+        return getMessageForPersonsDisplayedSummary(alphabeticalList);
+    }
+     
+    
     /*
      * ===========================================
      *               UI LOGIC
@@ -1101,6 +1124,7 @@ public class AddressBook {
                 + getUsageInfoForViewCommand() + LINE_SEPARATOR
                 + getUsageInfoForDeleteCommand() + LINE_SEPARATOR
                 + getUsageInfoForClearCommand() + LINE_SEPARATOR
+                + getUsageInfoForSortCommand() + LINE_SEPARATOR
                 + getUsageInfoForExitCommand() + LINE_SEPARATOR
                 + getUsageInfoForHelpCommand();
     }
@@ -1148,6 +1172,12 @@ public class AddressBook {
     private static String getUsageInfoForExitCommand() {
         return String.format(MESSAGE_COMMAND_HELP, COMMAND_EXIT_WORD, COMMAND_EXIT_DESC)
                 + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_EXIT_EXAMPLE);
+    }
+    
+    /** Returns the string for showing 'sort' command usage instruction */
+    private static String getUsageInfoForSortCommand() {
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_SORT_WORD, COMMAND_SORT_DESC)
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_SORT_EXAMPLE);
     }
 
 
